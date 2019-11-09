@@ -9,6 +9,16 @@ const jsonParser = bodyParser.json();
 
 const logger = require('../config/winston');
 
+// eslint-disable-next-line consistent-return
+function checkInputString(param, label, res) {
+  if (typeof param !== 'string' || param.length < 1) {
+    return res.send({
+      error_code: 'VALIDATION_ERROR',
+      message: `${label} must be a non empty string`,
+    });
+  }
+}
+
 module.exports = (db) => {
   app.get('/health', (req, res) => {
     res.send('Healthy');
@@ -40,26 +50,9 @@ module.exports = (db) => {
         });
       }
 
-      if (typeof riderName !== 'string' || riderName.length < 1) {
-        return res.send({
-          error_code: 'VALIDATION_ERROR',
-          message: 'Rider name must be a non empty string',
-        });
-      }
-
-      if (typeof driverName !== 'string' || driverName.length < 1) {
-        return res.send({
-          error_code: 'VALIDATION_ERROR',
-          message: 'Rider name must be a non empty string',
-        });
-      }
-
-      if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
-        return res.send({
-          error_code: 'VALIDATION_ERROR',
-          message: 'Rider name must be a non empty string',
-        });
-      }
+      checkInputString(riderName, 'Rider Name', res);
+      checkInputString(driverName, 'Driver Name', res);
+      checkInputString(driverVehicle, 'Driver Vehicle', res);
 
       const values = [
         req.body.start_lat,
