@@ -1,4 +1,4 @@
-import { describe } from 'mocha';
+// import { describe } from 'mocha';
 
 const request = require('supertest');
 
@@ -27,6 +27,26 @@ describe('API tests', () => {
       request(app)
         .get('/health')
         .expect('Content-Type', /text/)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /rides', () => {
+    it('should get all rides', (done) => {
+      request(app)
+        .get('/rides')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+    });
+  });
+
+  describe('GET /rides/:id', () => {
+    it('should get particular ride', (done) => {
+      request(app)
+        .get('/rides/1')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
