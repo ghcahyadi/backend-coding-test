@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 
 const jsonParser = bodyParser.json();
 
+const logger = require('../config/winston');
+
 module.exports = (db) => {
   app.get('/health', (req, res) => res.send('Healthy'));
   // eslint-disable-next-line consistent-return
@@ -65,7 +67,10 @@ module.exports = (db) => {
           error_code: 'SERVER_ERROR',
           message: 'Unknown error',
         });
+        // eslint-disable-next-line no-unreachable
+        logger.error(err);
       }
+
 
       // eslint-disable-next-line consistent-return,no-shadow
       db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, (err, rows) => {
@@ -74,8 +79,9 @@ module.exports = (db) => {
             error_code: 'SERVER_ERROR',
             message: 'Unknown error',
           });
+          // eslint-disable-next-line no-unreachable
+          logger.error(err);
         }
-
         res.send(rows);
       });
     });
@@ -89,6 +95,8 @@ module.exports = (db) => {
           error_code: 'SERVER_ERROR',
           message: 'Unknown error',
         });
+        // eslint-disable-next-line no-unreachable
+        logger.error(err);
       }
 
       if (rows.length === 0) {
@@ -110,6 +118,8 @@ module.exports = (db) => {
           error_code: 'SERVER_ERROR',
           message: 'Unknown error',
         });
+        // eslint-disable-next-line no-unreachable
+        logger.error(err);
       }
 
       if (rows.length === 0) {
