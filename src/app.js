@@ -127,7 +127,7 @@ module.exports = (db) => {
   app.get('/rides/:id', async (req, res) => {
     try {
       // eslint-disable-next-line consistent-return
-      await db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, (err, rows) => {
+      await db.all('SELECT * FROM Rides WHERE rideID = ?', req.params.id, (err, rows) => {
         if (err) {
           return res.send({
             error_code: 'SERVER_ERROR',
