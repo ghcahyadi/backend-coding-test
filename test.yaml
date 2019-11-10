@@ -1,0 +1,10 @@
+config:
+  target: http://localhost:8010
+  phases:
+    - duration: 10
+      arrivalRate: 10
+scenarios:
+  - flow:
+    - get:
+      # add the url you need to send get request
+      url: "/"
